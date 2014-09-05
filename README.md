@@ -1,7 +1,5 @@
 # YandexDictionaryApi
 
-TODO: Write a gem description
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -24,6 +22,11 @@ Or install it yourself as:
     i.get_langs
     params = { "lang" => "en-ru", "text" => "time" }
     i.lookup( params )
+
+## Return
+
+ApiInterface returns classes, created by JSON parser. 
+In case of the bad response from server raises ApiError with suitable message.
 
 ## Contributing
 
