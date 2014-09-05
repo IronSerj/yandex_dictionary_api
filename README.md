@@ -22,6 +22,14 @@ Or install it yourself as:
     i.get_langs
     params = { "lang" => "en-ru", "text" => "time" }
     i.lookup( params )
+    articles = i.lookup_arr( params )
+    articles.each do |article|
+    	article.text
+	    article.translations
+	    article.synonyms
+	    article.means
+	    article.examples
+    end
 
 ## Return
 

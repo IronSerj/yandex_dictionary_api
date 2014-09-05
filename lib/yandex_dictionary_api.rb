@@ -1,6 +1,7 @@
 require "yandex_dictionary_api/version"
 require "yandex_dictionary_api/api_client"
 require "yandex_dictionary_api/api_error"
+require "yandex_dictionary_api/article"
 require "json"
 
 module YandexDictionaryApi
@@ -18,14 +19,26 @@ module YandexDictionaryApi
       JSON.parse(response.body)
     end
 
-    #Executes lookup (Interpretation and translate) request to yandex dictionary api 
+    # Executes lookup (Interpretation and translate) request to yandex dictionary api 
+    # Returns Json object (see Readme example).
     def lookup(params_hash)
-      response = @client.execute("lookup", params_hash)
-      self.check_response(response)
+      response = exec_lookup(params_hash)
       JSON.parse(response.body)
     end
 
+    # Executes lookup (Interpretation and translate) request to yandex dictionary api 
+    # Returns Array of Articles (see Readme example).
+    def lookup_arr(params_hash)
+      response = exec_lookup(params_hash)
+      read_lookup_response(JSON.parse(response.body))
+    end
+
     protected
+
+    def exec_lookup(params_hash)
+      response = @client.execute("lookup", params_hash)
+      self.check_response(response)
+    end
 
     def check_response(response)
       case response.code
@@ -44,6 +57,30 @@ module YandexDictionaryApi
       else 
         raise ApiError.new(response.code, "Try again later.")
       end
+    end
+
+    def read_lookup_response(hash)
+      res = Array.new
+      hash["def"].each do |hash|
+        res << read_response_hash(hash)
+      end
+      res
+    end
+
+    def read_response_hash(hash)
+      res = Article.new
+      hash.each_pair do |key, value|
+        unless value.is_a? Array
+          res.text = res.text << value << " "
+        else
+          if key == "tr"
+            res.recognize_translation(value)
+          else
+            raise StandardError.new("Unknown format of response message. Please, contact the developer.")
+          end
+        end
+      end
+      res
     end
   end
 end

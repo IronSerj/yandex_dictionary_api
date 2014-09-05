@@ -1,13 +1,13 @@
 module YandexDictionaryApi
 
-	class ApiError < StandardError
+  class ApiError < StandardError
 
-		attr_reader :code
+    attr_reader :code
 
-		def initialize(int_code, str_message)
-			@code = int_code
-			msg = "Response code: #{int_code}. " + str_message
-			super(msg)
-		end
-	end
+    def initialize(int_code, str_message)
+      @code = int_code
+      msg = "Response code: #{int_code}. " + str_message
+      super(msg)
+    end
+  end
 end
