@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "yandex_dictionary_api"
   spec.version       = YandexDictionaryApi::VERSION
   spec.authors       = ["IronSerj"]
-  spec.email         = ["TODO: Write your email address"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.email         = ["iron.serj@gmail.com"]
+  spec.summary       = %q{Yandex dictionary API realization}
+  spec.description   = %q{Yandex dictionary API realization}
+  spec.homepage      = "https://github.com/IronSerj/yandex_dictionary_api"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,4 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "httpclient"
+  spec.add_development_dependency "json"
+  spec.add_development_dependency "rspec"
 end
+
