@@ -18,9 +18,12 @@ Or install it yourself as:
 
     $ gem install yandex_dictionary_api
 
-## Usage
+## Exapmle
 
-TODO: Write usage instructions here
+    i = YandexDictionary::ApiInterface.new("<your_api_key>")
+    i.get_langs
+    params = { "lang" => "en-ru", "text" => "time" }
+    i.lookup( params )
 
 ## Contributing
 
