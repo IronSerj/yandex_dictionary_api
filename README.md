@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Exapmle
 
-    i = YandexDictionary::ApiInterface.new("<your_api_key>")
+    i = YandexDictionaryApi::ApiInterface.new("<your_api_key>")
     i.get_langs
     params = { "lang" => "en-ru", "text" => "time" }
     i.lookup( params )
