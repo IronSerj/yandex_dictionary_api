@@ -62,25 +62,10 @@ module YandexDictionaryApi
     def read_lookup_response(hash)
       res = Array.new
       hash["def"].each do |hash|
-        res << read_response_hash(hash)
+        res << Article::recognize_article(hash)
       end
       res
     end
 
-    def read_response_hash(hash)
-      res = Article.new
-      hash.each_pair do |key, value|
-        unless value.is_a? Array
-          res.text = res.text << value << " "
-        else
-          if key == "tr"
-            res.recognize_translation(value)
-          else
-            raise StandardError.new("Unknown format of response message. Please, contact the developer.")
-          end
-        end
-      end
-      res
-    end
   end
 end

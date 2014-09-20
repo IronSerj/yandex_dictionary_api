@@ -1,5 +1,10 @@
 module YandexDictionaryApi
-  
+  TEXT = 1.freeze
+  TRANSLATIONS = 2.freeze
+  SYNONYMS = 3.freeze
+  MEANS = 4.freeze
+  EXAMPLES = 5.freeze
+
   # Includes containing of interpretation article, that returns lookup request
   class Article
     attr_accessor :text
@@ -16,47 +21,49 @@ module YandexDictionaryApi
       @examples = ""
     end
 
-    def recognize_translation(array)
-      array.each do |hash|
-        read_hash(hash)
-      end
+    def self.recognize_article(hash)
+      res = Article.new
+      res.read_hash(hash, TEXT)
+      res
     end
 
-    protected
-
-    def read_hash(hash)
+    def read_hash(hash, data_kind)
       hash.each_pair do |key, value|
         unless value.is_a? Array
-          @translations << value << " "
+          txt = value + " "
+          case data_kind
+          when TEXT
+            @text << txt
+          when TRANSLATIONS
+            @translations << txt
+          when SYNONYMS
+            @synonyms << txt
+          when MEANS
+            @means << txt
+          when EXAMPLES
+            @examples << txt
+          end
         else
           case key
+          when "tr"
+            read_array(value, TRANSLATIONS)
           when "syn"
-            @synonyms << read_attr_string(value)
+            read_array(value, SYNONYMS)
           when "mean"
-            @means << read_attr_string(value)
+            read_array(value, MEANS)
           when "ex"
-            @examples << read_attr_string(value)
+            read_array(value, EXAMPLES)
           end
         end
       end
     end
 
-    def read_attr_string(list)
-      str_res = ""
-      if list.is_a? Array
-        list.each do |hash|
-          str_res << read_attr_string(hash)
-        end
-        return str_res
+    protected
+
+    def read_array(array, data_kind)
+      array.each do |hash|
+        read_hash(hash, data_kind)
       end
-      list.each_pair do |key, value|
-        if value.is_a? Array
-          str_res << read_attr_string(value)
-        else
-          str_res << "#{value}" << " "
-        end
-      end
-      str_res
     end
 
   end

@@ -1,9 +1,10 @@
 require "spec_helper"
+require "/home/user/git/dictionary/config/initializers/constants"
 
 describe YandexDictionaryApi do 
 
   before do
-    $interface = YandexDictionaryApi::ApiInterface.new(ENV["KEY"])
+    $interface = YandexDictionaryApi::ApiInterface.new(Constants::API_KEY)
   end
 
   it "should return a list of supported languages" do
