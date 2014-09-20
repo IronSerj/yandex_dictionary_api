@@ -58,6 +58,16 @@ module YandexDictionaryApi
       end
     end
 
+    def to_hash
+      res = Hash.new
+      res["text"] = @text
+      res["translations"] = @translations
+      res["synonyms"] = @synonyms
+      res["means"] = @means
+      res["examples"] = @examples
+      res
+    end
+
     protected
 
     def read_array(array, data_kind)
